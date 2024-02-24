@@ -37,7 +37,7 @@ namespace Flow.Launcher.Converters
 
                 // For AutocompleteQueryCommand.
                 // When user typed lower case and result title is uppercase, we still want to display suggestion
-                selectedItem.QuerySuggestionText = string.Concat(queryText, selectedResultPossibleSuggestion.AsSpan(queryText.Length));
+                selectedItem.QuerySuggestionText = queryText + selectedResultPossibleSuggestion.Substring(queryText.Length);
 
                 // Check if Text will be larger than our QueryTextBox
                 Typeface typeface = new Typeface(queryTextBox.FontFamily, queryTextBox.FontStyle, queryTextBox.FontWeight, queryTextBox.FontStretch);
