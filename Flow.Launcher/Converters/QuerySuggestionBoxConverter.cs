@@ -12,9 +12,17 @@ namespace Flow.Launcher.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values is not [TextBox queryTextBox, ResultViewModel selectedItem, string queryText] ||
-                string.IsNullOrEmpty(queryText))
+            if (
+                values.Length != 3 ||
+                values[0] is not TextBox queryTextBox ||
+                values[1] is null ||
+                values[2] is not string queryText ||
+                string.IsNullOrEmpty(queryText)
+            )
                 return string.Empty;
+            
+            if (values[1] is not ResultViewModel selectedItem)
+                return Binding.DoNothing;
 
             try
             {
