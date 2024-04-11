@@ -4,6 +4,7 @@ using System.Windows.Data;
 
 namespace Flow.Launcher.Converters;
 
+
 public class BoolToVisibilityConverter : IValueConverter
 {
     public object Convert(object value, System.Type targetType, object parameter, CultureInfo culture)

@@ -6,6 +6,7 @@ using Flow.Launcher.ViewModel;
 
 namespace Flow.Launcher.Converters;
 
+
 public class TextConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

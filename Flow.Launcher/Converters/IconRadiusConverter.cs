@@ -4,6 +4,7 @@ using System.Windows.Data;
 
 namespace Flow.Launcher.Converters;
 
+
 public class IconRadiusConverter : IMultiValueConverter
 {
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)

@@ -7,6 +7,7 @@ using System.Windows.Documents;
 
 namespace Flow.Launcher.Converters;
 
+
 public class HighlightTextConverter : IMultiValueConverter
 {
     public object Convert(object[] value, Type targetType, object parameter, CultureInfo cultureInfo)

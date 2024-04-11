@@ -9,6 +9,7 @@ using System.Windows.Shapes;
 
 namespace Flow.Launcher.Converters;
 
+
 public class BorderClipConverter : IMultiValueConverter
 {
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)

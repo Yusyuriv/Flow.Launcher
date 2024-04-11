@@ -8,6 +8,7 @@ using Flow.Launcher.ViewModel;
 
 namespace Flow.Launcher.Converters;
 
+
 public class QuerySuggestionBoxConverter : IMultiValueConverter
 {
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)

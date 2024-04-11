@@ -5,6 +5,7 @@ using System.Windows.Input;
 
 namespace Flow.Launcher.Converters;
 
+
 internal class BoolToIMEConversionModeConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

@@ -6,6 +6,7 @@ using System.Windows.Data;
 
 namespace Flow.Launcher.Converters;
 
+
 [ValueConversion(typeof(bool), typeof(Visibility))]
 public class OpenResultHotkeyVisibilityConverter : IValueConverter
 {
