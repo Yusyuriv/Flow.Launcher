@@ -9,13 +9,33 @@ using Flow.Launcher.Helper;
 using Flow.Launcher.Infrastructure.Hotkey;
 using Flow.Launcher.Plugin;
 using System.Threading;
+using JetBrains.Annotations;
+using NHotkey;
 
 namespace Flow.Launcher
 {
-    public partial class HotkeyControl : UserControl
+    public partial class HotkeyControl : UserControl, IDisposable
     {
+        public static readonly DependencyProperty HotkeyProperty = DependencyProperty.Register(
+            nameof(Hotkey),
+            typeof(string),
+            typeof(HotkeyControl),
+            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault)
+        );
         public HotkeyModel CurrentHotkey { get; private set; }
         public bool CurrentHotkeyAvailable { get; private set; }
+
+        public string Hotkey
+        {
+            get => (string)GetValue(HotkeyProperty);
+            set
+            {
+                SetValue(HotkeyProperty, value);
+            }
+        }
+
+        [CanBeNull]
+        public EventHandler<HotkeyEventArgs> Action { get; set; }
 
         public event EventHandler HotkeyChanged;
 
@@ -29,6 +49,28 @@ namespace Flow.Launcher
         public HotkeyControl()
         {
             InitializeComponent();
+            Loaded += HotkeyControl_Loaded;
+        }
+
+        private void HotkeyControl_LostFocus(object o, RoutedEventArgs routedEventArgs)
+        {
+            HotKeyMapper.SetHotkey(CurrentHotkey, Action);
+        }
+
+        private void HotkeyControl_GotFocus(object o, RoutedEventArgs routedEventArgs)
+        {
+            HotKeyMapper.RemoveHotkey(Hotkey);
+        }
+
+        private void HotkeyControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            _ = SetHotkeyAsync(Hotkey, false);
+
+            if (Action is not null)
+            {
+                GotFocus += HotkeyControl_GotFocus;
+                LostFocus += HotkeyControl_LostFocus;
+            }
         }
 
         private CancellationTokenSource hotkeyUpdateSource;
@@ -86,6 +128,7 @@ namespace Flow.Launcher
                 if (CurrentHotkeyAvailable)
                 {
                     CurrentHotkey = keyModel;
+                    Hotkey = keyModel.ToString();
                     // To trigger LostFocus
                     FocusManager.SetFocusedElement(FocusManager.GetFocusScope(this), null);
                     Keyboard.ClearFocus();
@@ -94,9 +137,10 @@ namespace Flow.Launcher
             else
             {
                 CurrentHotkey = keyModel;
+                Hotkey = keyModel.ToString();
             }
         }
-        
+
         public Task SetHotkeyAsync(string keyStr, bool triggerValidate = true)
         {
             return SetHotkeyAsync(new HotkeyModel(keyStr), triggerValidate);
@@ -136,6 +180,14 @@ namespace Flow.Launcher
                 tbMsg.Text = InternationalizationManager.Instance.GetTranslation("success");
             }
             tbMsg.Visibility = Visibility.Visible;
+        }
+
+        public void Dispose()
+        {
+            hotkeyUpdateSource?.Dispose();
+            Loaded -= HotkeyControl_Loaded;
+            GotFocus -= HotkeyControl_GotFocus;
+            LostFocus -= HotkeyControl_LostFocus;
         }
     }
 }

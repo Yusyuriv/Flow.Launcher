@@ -5,8 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:input="clr-namespace:System.Windows.Input;assembly=PresentationCore"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Height="24"
-    d:DesignHeight="300"
+    Height="35"
+    d:DesignHeight="35"
     d:DesignWidth="300"
     mc:Ignorable="d">
     <Grid>
